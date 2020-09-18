@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SvgUri } from 'react-native-svg';
-import { Course, CourseActive, Home, HomeActive, Message, MessageActive, User, UserActive } from "../../assets"
+import { Course, CourseActive, Menu, HomeActive, Message, MessageActive, User, UserActive } from "../../assets"
 
 const TabItem = ({ onPress, onLongPress, options, isFocused, label }) => {
   const Icon = () => {
     
-    if (label === "Discover") return <CourseActive width={20} height={20}/>
+    if (label === "Discover") return <Menu width={20} height={20}/>
      if(label === "Messages") return <MessageActive  width={20} height={20}/>
      if(label === "Courses") return <HomeActive width={20} height={20} />
      if(label === "Profiles") return <UserActive width={20} height={20} />

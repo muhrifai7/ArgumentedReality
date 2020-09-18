@@ -9,7 +9,10 @@ import {
     SplashScreen,
     Courses,
     Messages,
-    Notifications
+    Notifications,
+    OnBoarding,
+    Register,
+    Login
 } from "../pages";
 import { MyTabBar } from "../components"
 
@@ -35,9 +38,12 @@ const MainApp = () => {
 
 const Routes = () => {
     return (
-        <Stack.Navigator initialRouteName="MainApp">
+        <Stack.Navigator initialRouteName="SplashScreen">
             <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OnBoarding" component={OnBoarding} options={{ headerShown: false }} />
             <Stack.Screen name="MainApp" component={MainApp}  options={{ headerShown: false }} />
+            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

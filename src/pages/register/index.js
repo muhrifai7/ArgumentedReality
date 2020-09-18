@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { StyleSheet,View, Text } from 'react-native';
 
-const Notifications = ()=> {
+const Register = ()=> {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>HoNotificationsme Screen</Text>
+          <Text>Register Screen</Text>
         </View>
       );
 }
 
-export default Notifications;
+export default Register;
 
 const styes = StyleSheet.create({
 

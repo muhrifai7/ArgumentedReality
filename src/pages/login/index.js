@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { StyleSheet,View, Text } from 'react-native';
 
-const Notifications = ()=> {
+const Login = ()=> {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>HoNotificationsme Screen</Text>
+          <Text>Login Screen</Text>
         </View>
       );
 }
 
-export default Notifications;
+export default Login;
 
 const styes = StyleSheet.create({
 

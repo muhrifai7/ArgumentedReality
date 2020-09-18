@@ -27,10 +27,13 @@ const Article = ({ data }) => {
             <Text>{content}</Text>
           </View>
         </View>
+        <View style={styles.button}>
         <Button
           title="Join the discussion"
           type="primary"
         />
+        </View>
+        
         <View style={styles.share}>
           <Text>98</Text>
           <Text>12 Comment</Text>
@@ -98,12 +101,16 @@ const styles = StyleSheet.create({
   subContent: { display: "flex", flexDirection: "row" },
   description: {
     backgroundColor: "#E7F2F8",
-    overflow:"hidden",
-    marginRight:5,
+    width:"95%"
   },
   share : {
     display : "flex",
     flexDirection:"row",
     justifyContent : "space-between",
   },
+  button : {
+    alignItems : "center",
+    display:"flex",
+    marginVertical:10
+  }
 })

@@ -3,10 +3,12 @@ import {colors, sizes} from '../../theme';
 
 const styles = StyleSheet.create({
   primary: {
-    backgroundColor: colors.primary,
-    paddingVertical: 15,
+    backgroundColor: "#05D9E8",
+    paddingVertical: 10,
     borderRadius: sizes.radiusMedium,
     alignItems: 'center',
+    paddingHorizontal : 10
+    // width:80
   },
   dark: {
     backgroundColor: colors.dark,

@@ -6,6 +6,6 @@ import HomeActive from "./homeActive.svg"
 import Home from "./home.svg"
 import CourseActive from "./courseActive.svg"
 import Course from "./course.svg"
+import Menu from "./menu.svg"
 
-
-export { Course,CourseActive,Home,HomeActive,Message,MessageActive,User,UserActive}
+export { Menu,Course,CourseActive,Home,HomeActive,Message,MessageActive,User,UserActive}
