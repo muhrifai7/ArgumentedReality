@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, FlatList, SafeAreaView } from 'react-native';
 import { Icon } from 'react-native-elements'
-
-import { screenHeight } from "../../utils/contants.js"
 import Gap from "../Gap"
 import Button from "../Button"
 
