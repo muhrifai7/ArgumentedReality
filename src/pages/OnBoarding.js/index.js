@@ -35,7 +35,6 @@ const onBoardings = [
 ];
 
 const OnBoarding = ({navigation}) => {
-    console.log(navigation,'navigation')
     const [completed, setCompleted] = React.useState(false);
 
     const scrollX = new Animated.Value(0);
