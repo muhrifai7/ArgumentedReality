@@ -15,27 +15,25 @@ const Register = ()=> {
   const onSubmit = (values)=> {
     console.log(values)
   }
-
-
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-         <Formik
-     initialValues={user}
-     onSubmit={onSubmit}
-   >
-     {({ handleChange, handleBlur, handleSubmit, values }) => (
-       <View>
-         <TextInput
-           onChangeText={handleChange('email')}
-           onBlur={handleBlur('email')}
-           value={values.email}
-         />
-         <Button onPress={handleSubmit} title="Submit" />
-       </View>
-     )}
-   </Formik>
-        </View>
-      );
+  return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Formik
+          initialValues={user}
+          onSubmit={onSubmit}
+        >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <View>
+                   <TextInput
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+            />
+            <Button onPress={handleSubmit} title="Submit" />
+          </View>
+        )}
+        </Formik>
+      </View>
+  );
 }
 
 export default Register;

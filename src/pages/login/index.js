@@ -1,86 +1,77 @@
-import React,{useState} from 'react';
- import { Button, TextInput, View,StyleSheet,Text } from 'react-native';
- import { Formik } from 'formik';
- import * as Yup from 'yup';
-import CustomTextInput from "../../components/CustomTextInput"
-import ContainerAuth from "../../components/ContainerAuth"
+import React, {useState} from 'react';
+import {Button, TextInput, View, StyleSheet, Text} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import CustomTextInput from '../../components/CustomTextInput';
+import ContainerAuth from '../../components/ContainerAuth';
 
-const Login = ()=> {
+const Login = () => {
   const initialState = {
-    email : "",
-    password :"",
+    email: '',
+    password: '',
+  };
+  const [user, setUser] = useState(initialState);
 
-  }
-  const [user,setUser] = useState(initialState)
+  const onSubmit = (values) => {
+    console.log(values);
+  };
 
-  const onSubmit = (values)=> {
-    console.log(values)
-  }
-
-
-    return (
-      <View style={{flex:1,backgroundColor:'black'}}>
+  return (
+    <View>
       <ContainerAuth />
-        <View style={styles.container}>
-          <View styles={styles.logo}>
-            <Text>Logo</Text>
-          </View>
-         <Formik
-     initialValues={user}
-     onSubmit={onSubmit}
-   >
-     {({ handleChange, handleBlur, handleSubmit, values }) => (
-       <View style={styles.formContainer}>
-         <CustomTextInput
-           handle={handleChange('email')}
-           onBlur={handleBlur('email')}
-           value={values.email}
-           placeholder="Email"
-         />
-         <CustomTextInput
-           handle={handleChange('password')}
-           onBlur={handleBlur('password')}
-           value={values.password}
-           placeholder="Password"
-           isPassword={true}
-         />
-         <Button onPress={handleSubmit} title="Submit" />
-       </View>
-     )}
-   </Formik>
-  
+      <View style={styles.container}>
+        <View styles={styles.logo}>
+          <Text> Logo </Text>
         </View>
-        <View style={styles.footerAuth}>
-
-</View>
-        </View>
-      );
-}
+        <Formik initialValues={user} onSubmit={onSubmit}>
+          {({handleChange, handleBlur, handleSubmit, values}) => (
+            <View style={styles.formContainer}>
+              <CustomTextInput
+                handle={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                placeholder="Email"
+              />
+              <CustomTextInput
+                handle={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                placeholder="Password"
+                isPassword={true}
+              />
+              <Button onPress={handleSubmit} title="Submit" />
+            </View>
+          )}
+        </Formik>
+      </View>
+    </View>
+  );
+};
 
 export default Login;
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     flex: 1,
-    alignItems: "center",
-    alignSelf:"center",
-    justifyContent:"center",
-    borderBottomLeftRadius:40,
-        borderBottomRightRadius:40,
-        backgroundColor:"white",
-    marginTop:-42,
-   
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    backgroundColor: '#FF2111',
+    marginTop: -42,
   },
-  logo:{
-    fontWeight:"bold",
-    fontSize:80,
-    color:"#fb5b5a",
-    marginBottom:40
+  logo: {
+    fontWeight: 'bold',
+    fontSize: 80,
+    color: '#fb5b5a',
+    marginBottom: 40,
   },
-  formContainer : {marginHorizontal:20},
-  footerAuth : {
-    backgroundColor:"black",
-    height :80,
-    
-  }
-})
+  formContainer: {
+    marginHorizontal: 20,
+  },
+  footerAuth: {
+    backgroundColor: 'black',
+    height: 80,
+  },
+});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
 import {TextInput, Animated, View,StyleSheet} from 'react-native';
@@ -19,6 +19,8 @@ const CustomTextInput = ({
         animated: new Animated.Value(0),
         hide: true,
       });
+
+      
 
       const handleType = async (value) => {
         await setState({

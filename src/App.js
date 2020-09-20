@@ -1,19 +1,17 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux'
-import { store } from 'redux'
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider} from 'react-redux';
+import store from './redux/ducks/store';
 import Routes from './router';
 
-
-function App() {
+const App = () => {
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <NavigationContainer>
         <Routes />
       </NavigationContainer>
-    // </Provider>
-
+    </Provider>
   );
-}
+};
 
 export default App;
