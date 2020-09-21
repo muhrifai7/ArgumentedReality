@@ -1,5 +1,6 @@
 import React, {Component, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
+import {Logo} from '../../assets/icons';
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
@@ -8,8 +9,10 @@ const SplashScreen = ({navigation}) => {
     }, 300);
   }, [navigation]);
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Splash Screen</Text>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <Logo width={120} height={120} />
+      </View>
     </View>
   );
 };

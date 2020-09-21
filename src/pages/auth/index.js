@@ -6,22 +6,26 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
+import Animated from 'react-native-reanimated';
+import {State, TabGestureHandler} from 'react-native-gesture-handler';
 
 import CustomTextInput from '../../components/CustomTextInput';
 import ContainerAuth from '../../components/ContainerAuth';
-
 import {SIZES, FONTS, COLORS} from '../../constants';
 
-const Login = () => {
-  const initialState = {
-    email: '',
-    password: '',
+const {Value, event, block, cond, eq, set} = Animated;
+
+const AuthScreen = () => {
+  const buttonOpacity = new Value(1);
+
+  const onSigninButtonChange = (event) => {
+    Alert.alert("I'm touched");
   };
-  const [user, setUser] = useState(initialState);
 
   const onSubmit = (values) => {
     console.log(values);
@@ -31,23 +35,26 @@ const Login = () => {
     <View style={styles.container}>
       <View style={styles.header}></View>
       <View style={styles.content}>
-        <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => {}}>
-            <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={styles.signIn}>
-              <Text
-                style={[
-                  {...styles.textSign, ...FONTS.body4},
-                  {
-                    color: '#fff',
-                  },
-                ]}>
-                Sign In
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+        <TabGestureHandler onHandlerStateChange={onSigninButtonChange}>
+          <Animated.View style={{...styles.button, opacity: buttonOpacity}}>
+            <TouchableOpacity style={styles.signIn} onPress={() => {}}>
+              <LinearGradient
+                colors={['#08d4c4', '#01ab9d']}
+                style={styles.signIn}>
+                <Text
+                  style={[
+                    {...styles.textSign, ...FONTS.body4},
+                    {
+                      color: '#fff',
+                    },
+                  ]}>
+                  Sign In
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </Animated.View>
+        </TabGestureHandler>
+
         <View style={styles.button}>
           <TouchableOpacity style={styles.signIn} onPress={() => {}}>
             <LinearGradient
@@ -102,7 +109,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AuthScreen;
 
 const styles = StyleSheet.create({
   container: {
