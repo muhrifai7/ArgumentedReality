@@ -2,20 +2,24 @@ import React, {useState} from 'react';
 import {
   Button,
   TextInput,
+  Platform,
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
+  StatusBar,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
-
+import * as Animatable from 'react-native-animatable';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
+import Feather from 'react-native-vector-icons/Feather';
 
 GoogleSignin.configure(
   GoogleSignin.configure({
@@ -31,13 +35,18 @@ GoogleSignin.configure(
 );
 
 import CustomTextInput from '../../components/CustomTextInput';
-import ContainerAuth from '../../components/ContainerAuth';
 
 import {SIZES, FONTS, COLORS} from '../../constants';
 
-const Login = () => {
-  console.log(process.env, '{process.env');
-  const initialState = {};
+const Login = ({navigation}) => {
+  const initialState = {
+    username: '',
+    password: '',
+    confirm_password: '',
+    check_textInputChange: false,
+    secureTextEntry: true,
+    confirm_secureTextEntry: true,
+  };
   const [userInfo, setUserInfo] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
@@ -68,89 +77,133 @@ const Login = () => {
     setLoading(false);
   };
 
+  const updateSecureTextEntry = () => {
+    setUserInfo({
+      ...userInfo,
+      secureTextEntry: !userInfo.secureTextEntry,
+    });
+  };
+
+  const SignupSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    lastName: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+  });
+
   const onSubmit = (values) => {
-    console.log(values);
+    console.log(values, 'onSubmitonSubmit');
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
-      <View style={styles.content}>
-        <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => {}}>
-            <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={styles.signIn}>
-              <Text
-                style={[
-                  {...styles.textSign, ...FONTS.body4},
-                  {
-                    color: '#fff',
-                  },
-                ]}>
-                Sign In
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => {}}>
-            <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={styles.signIn}>
-              <Text
-                style={[
-                  {...styles.textSign, ...FONTS.body4},
-                  {
-                    color: '#fff',
-                  },
-                ]}>
-                Sign Up
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.text_header}>Wellcome!</Text>
       </View>
-      <View style={styles.footer}>
-        <View>
-          <GoogleSigninButton
-            style={{width: SIZES.width * 0.45, height: 48}}
-            size={GoogleSigninButton.Size.Standard}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={_signIn}
-            disabled={loading}
-          />
-        </View>
-        {loading && (
-          <View>
-            <Text>{error}</Text>
-          </View>
-        )}
-      </View>
-      {/* <View styles={styles.header}>
-          <Text> Logo </Text>
-        </View> */}
-      {/* <Formik initialValues={user} onSubmit={onSubmit}>
-          {({handleChange, handleBlur, handleSubmit, values}) => (
-            <View style={styles.formContainer}>
-              <FontAwesome name="user-o" color="#009387" size={20} />
-              <CustomTextInput
-                handle={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                placeholder="Email"
-              />
-              <CustomTextInput
-                handle={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                placeholder="Password"
-                isPassword={true}
-              />
-              <Button onPress={handleSubmit} title="Submit" />
-            </View>
-          )}
-        </Formik> */}
+      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <ScrollView showsVerticalIndicator={false}>
+          <Formik initialValues={userInfo} onSubmit={onSubmit}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View>
+                <View style={styles.action}>
+                  <CustomTextInput
+                    icon="user-o"
+                    placeholder="Your Username"
+                    style={styles.textInput}
+                    autoCapitalize=""
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('username')}
+                    errors={errors.email}
+                    touched={touched.email}
+                  />
+                </View>
+                <View style={styles.action}>
+                  <CustomTextInput
+                    icon="lock"
+                    placeholder="Your Password"
+                    style={styles.textInput}
+                    autoCapitalize="none"
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    errors={errors.password}
+                    touched={touched.password}
+                  />
+                </View>
+
+                <TouchableOpacity>
+                  <Text style={{color: COLORS.blue, marginTop: 15}}>
+                    Forgot password?
+                  </Text>
+                </TouchableOpacity>
+
+                <View style={styles.button}>
+                  <TouchableOpacity
+                    style={styles.signIn}
+                    onPress={() => {
+                      handleSubmit();
+                    }}>
+                    <LinearGradient
+                      colors={[COLORS.blue, COLORS.blue]}
+                      style={styles.signIn}>
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: '#fff',
+                          },
+                        ]}>
+                        Sign In
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('Register')}
+                    style={[
+                      styles.signIn,
+                      {
+                        borderColor: COLORS.blue,
+                        borderWidth: 1,
+                        marginTop: 15,
+                      },
+                    ]}>
+                    <Text
+                      style={[
+                        styles.textSign,
+                        {
+                          color: COLORS.blue,
+                        },
+                      ]}>
+                      Sign Up
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <GoogleSigninButton
+                  style={{width: SIZES.width * 0.45, height: 48}}
+                  size={GoogleSigninButton.Size.Standard}
+                  color={GoogleSigninButton.Color.Dark}
+                  onPress={_signIn}
+                  disabled={loading}
+                />
+              </View>
+            )}
+          </Formik>
+          {Platform.OS === 'ios' && <KeyboardSpacer />}
+        </ScrollView>
+      </Animatable.View>
     </View>
   );
 };
@@ -164,32 +217,78 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    backgroundColor: COLORS.blue,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 50,
   },
-  content: {
-    height: SIZES.height / 7,
-    marginVertical: 20,
+  footer: {
+    flex: Platform.OS === 'ios' ? 3 : 5,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
+  text_header: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  text_footer: {
+    color: '#05375a',
+    fontSize: 18,
+  },
+  action: {
+    flexDirection: 'row',
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    paddingBottom: 5,
+  },
+  textInput: {
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    paddingLeft: 10,
+    color: '#05375a',
   },
   button: {
-    marginVertical: 5,
-    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginTop: 20,
   },
   signIn: {
     width: '100%',
-    height: 30,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 6,
-  },
-  footer: {
-    display: 'flex',
-    flexDirection: 'row',
-    height: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 19,
+    borderRadius: 10,
   },
   textSign: {
     fontSize: 18,
+    fontWeight: 'bold',
+  },
+  textPrivate: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 20,
+  },
+  color_textPrivate: {
+    color: COLORS.gray,
   },
 });
+
+//  <View style={styles.footer}>
+//    <View>
+//      <GoogleSigninButton
+//        style={{width: SIZES.width * 0.45, height: 48}}
+//        size={GoogleSigninButton.Size.Standard}
+//        color={GoogleSigninButton.Color.Dark}
+//        onPress={_signIn}
+//        disabled={loading}
+//      />
+//    </View>
+//    {loading && (
+//      <View>
+//        <Text>{error}</Text>
+//      </View>
+//    )}
+//  </View>;
