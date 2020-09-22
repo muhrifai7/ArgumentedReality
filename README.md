@@ -22,5 +22,20 @@ For RN <= 0.59 use version 2 installed from react-native-google-signin
 
 yarn add react-native-google-signin
 ```
-sourse https://github.com/react-native-community/google-signin
+source https://github.com/react-native-community/google-signin
 
+
+## Credential Google Sign In
+
+```
+open https://console.cloud.google.com/
+
+Create New project 
+- follow the steps
+
+Create Credentials
+
+For RN <= 0.59 use version 2 installed from react-native-google-signin
+
+yarn add react-native-google-signin
+```
