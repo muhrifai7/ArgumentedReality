@@ -12,7 +12,7 @@
 ## Installation & Configuration
 Follow these step to install
 
-**Google signin**
+**Google signin **
 ```
 $For RN >= 0.60 please use version 3 or above installed from @react-native-community/google-signin
 
@@ -21,7 +21,4 @@ yarn add @react-native-community/google-signin
 For RN <= 0.59 use version 2 installed from react-native-google-signin
 
 yarn add react-native-google-signin
-$ cd mamiclone2
-$ npm install
-$ react-native run-android #for android
 ```
