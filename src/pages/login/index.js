@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -20,6 +21,7 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 GoogleSignin.configure(
   GoogleSignin.configure({
@@ -35,7 +37,7 @@ GoogleSignin.configure(
 );
 
 import CustomTextInput from '../../components/CustomTextInput';
-
+import {Users} from '../../utils/Dumydata';
 import {SIZES, FONTS, COLORS} from '../../constants';
 
 const Login = ({navigation}) => {
@@ -46,6 +48,8 @@ const Login = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
   };
   const [userInfo, setUserInfo] = useState(initialState);
   const [loading, setLoading] = useState(false);
@@ -77,6 +81,40 @@ const Login = ({navigation}) => {
     setLoading(false);
   };
 
+  const textInputChange = (val) => {
+    if (val.trim().length >= 4) {
+      setUserInfo({
+        ...userInfo,
+        username: val,
+        check_textInputChange: true,
+        isValidUser: true,
+      });
+    } else {
+      setUserInfo({
+        ...userInfo,
+        username: val,
+        check_textInputChange: false,
+        isValidUser: false,
+      });
+    }
+  };
+
+  const handlePasswordChange = (val) => {
+    if (val.trim().length >= 8) {
+      setUserInfo({
+        ...userInfo,
+        password: val,
+        isValidPassword: true,
+      });
+    } else {
+      setUserInfo({
+        ...userInfo,
+        password: val,
+        isValidPassword: false,
+      });
+    }
+  };
+
   const updateSecureTextEntry = () => {
     setUserInfo({
       ...userInfo,
@@ -84,12 +122,50 @@ const Login = ({navigation}) => {
     });
   };
 
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
+  const handleValidUser = (val) => {
+    if (val.trim().length >= 4) {
+      setUserInfo({
+        ...userInfo,
+        isValidUser: true,
+      });
+    } else {
+      setUserInfo({
+        ...userInfo,
+        isValidUser: false,
+      });
+    }
+  };
+
+  const loginHandle = (userName, password) => {
+    const foundUser = Users.filter((item) => {
+      return userName == item.username && password == item.password;
+    });
+    console.log(foundUser, 'foundUser');
+
+    if (userInfo.username.length == 0 || userInfo.password.length == 0) {
+      Alert.alert(
+        'Wrong Input!',
+        'Username or password field cannot be empty.',
+        [{text: 'Okay'}],
+      );
+      return;
+    }
+
+    // if (foundUser.length == 0) {
+    //   Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+    //     {text: 'Okay'},
+    //   ]);
+    //   return;
+    // }
+    navigation.navigate('MainApp');
+  };
+
+  const SignInSchema = Yup.object().shape({
+    username: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
-    lastName: Yup.string()
+    password: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long!')
       .required('Required'),
@@ -102,13 +178,16 @@ const Login = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
       <View style={styles.header}>
         <Text style={styles.text_header}>Wellcome!</Text>
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <ScrollView showsVerticalIndicator={false}>
-          <Formik initialValues={userInfo} onSubmit={onSubmit}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Formik
+            initialValues={userInfo}
+            onSubmit={onSubmit}
+            validationSchema={SignInSchema}>
             {({
               handleChange,
               handleBlur,
@@ -119,32 +198,67 @@ const Login = ({navigation}) => {
             }) => (
               <View>
                 <View style={styles.action}>
-                  <CustomTextInput
-                    icon="user-o"
+                  <FontAwesome name="user-o" color={COLORS.text} size={20} />
+                  <TextInput
                     placeholder="Your Username"
-                    style={styles.textInput}
-                    autoCapitalize=""
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('username')}
-                    errors={errors.email}
-                    touched={touched.email}
-                  />
-                </View>
-                <View style={styles.action}>
-                  <CustomTextInput
-                    icon="lock"
-                    placeholder="Your Password"
-                    style={styles.textInput}
+                    placeholderTextColor="#666666"
+                    style={[
+                      styles.textInput,
+                      {
+                        color: COLORS.text,
+                      },
+                    ]}
                     autoCapitalize="none"
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    errors={errors.password}
-                    touched={touched.password}
+                    onChangeText={handleChange('userInfo.username')}
+                    onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                   />
+                  {userInfo.check_textInputChange ? (
+                    <Animatable.View animation="bounceIn">
+                      <Feather name="check-circle" color="green" size={20} />
+                    </Animatable.View>
+                  ) : null}
                 </View>
+                {userInfo.isValidUser ? null : (
+                  <Animatable.View animation="fadeInLeft" duration={500}>
+                    <Text style={styles.errorMsg}>
+                      Username must be 4 characters long.
+                    </Text>
+                  </Animatable.View>
+                )}
+                <View style={styles.action}>
+                  <Feather name="lock" color={COLORS.text} size={20} />
+                  <TextInput
+                    placeholder="Your Password"
+                    placeholderTextColor="#666666"
+                    secureTextEntry={userInfo.secureTextEntry ? true : false}
+                    style={[
+                      styles.textInput,
+                      {
+                        color: COLORS.text,
+                      },
+                    ]}
+                    autoCapitalize="none"
+                    onChangeText={handleChange('userInfo.password')}
+                  />
+
+                  <TouchableOpacity onPress={updateSecureTextEntry}>
+                    {userInfo.secureTextEntry ? (
+                      <Feather name="eye-off" color="grey" size={20} />
+                    ) : (
+                      <Feather name="eye" color="grey" size={20} />
+                    )}
+                  </TouchableOpacity>
+                </View>
+                {userInfo.isValidPassword ? null : (
+                  <Animatable.View animation="fadeInLeft" duration={500}>
+                    <Text style={styles.errorMsg}>
+                      Password must be 8 characters long.
+                    </Text>
+                  </Animatable.View>
+                )}
 
                 <TouchableOpacity>
-                  <Text style={{color: COLORS.blue, marginTop: 15}}>
+                  <Text style={{color: COLORS.primary, marginTop: 15}}>
                     Forgot password?
                   </Text>
                 </TouchableOpacity>
@@ -152,11 +266,9 @@ const Login = ({navigation}) => {
                 <View style={styles.button}>
                   <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {
-                      handleSubmit();
-                    }}>
+                    onPress={handleSubmit}>
                     <LinearGradient
-                      colors={[COLORS.blue, COLORS.blue]}
+                      colors={[COLORS.primary, COLORS.primary]}
                       style={styles.signIn}>
                       <Text
                         style={[
@@ -170,12 +282,12 @@ const Login = ({navigation}) => {
                     </LinearGradient>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => navigation.navigate('Register')}
                     style={[
                       styles.signIn,
                       {
-                        borderColor: COLORS.blue,
+                        borderColor: COLORS.primary,
                         borderWidth: 1,
                         marginTop: 15,
                       },
@@ -184,16 +296,16 @@ const Login = ({navigation}) => {
                       style={[
                         styles.textSign,
                         {
-                          color: COLORS.blue,
+                          color: COLORS.primary,
                         },
                       ]}>
                       Sign Up
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <GoogleSigninButton
-                  style={{width: SIZES.width * 0.45, height: 48}}
-                  size={GoogleSigninButton.Size.Standard}
+                  style={{height: 48}}
+                  size={GoogleSigninButton.Size.Wide}
                   color={GoogleSigninButton.Color.Dark}
                   onPress={_signIn}
                   disabled={loading}
@@ -213,7 +325,7 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.primary,
   },
   header: {
     flex: 1,
@@ -262,6 +374,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
+  errorMsg: {
+    color: '#FF0000',
+    fontSize: 14,
+  },
   textSign: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -275,20 +391,3 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
   },
 });
-
-//  <View style={styles.footer}>
-//    <View>
-//      <GoogleSigninButton
-//        style={{width: SIZES.width * 0.45, height: 48}}
-//        size={GoogleSigninButton.Size.Standard}
-//        color={GoogleSigninButton.Color.Dark}
-//        onPress={_signIn}
-//        disabled={loading}
-//      />
-//    </View>
-//    {loading && (
-//      <View>
-//        <Text>{error}</Text>
-//      </View>
-//    )}
-//  </View>;

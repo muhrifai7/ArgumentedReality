@@ -14,8 +14,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import Animated from 'react-native-reanimated';
 import {State, TabGestureHandler} from 'react-native-gesture-handler';
 
-import CustomTextInput from '../../components/CustomTextInput';
-import ContainerAuth from '../../components/ContainerAuth';
 import {SIZES, FONTS, COLORS} from '../../constants';
 
 const {Value, event, block, cond, eq, set} = Animated;

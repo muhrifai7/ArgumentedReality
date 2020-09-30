@@ -1,8 +1,8 @@
 import fetchRequest from '../../utils/api/fetchRequest';
 
-export async function Logout() {
+export async function GetArticle() {
   try {
-    const response = await fetchRequest('POST', 'accounts/logout');
+    const response = await fetchRequest('GET', 'albums');
     return response;
   } catch (error) {
     throw error;

@@ -24,6 +24,7 @@ const CustomTextInput = ({
   errors,
   secureTextEntry,
   handlesecureTextEntry,
+  touched,
 }) => {
   return (
     <View style={styles.container}>
@@ -38,6 +39,7 @@ const CustomTextInput = ({
           onChangeText={() => handleChange()}
         />
       </View>
+      {touched && <Text style={styles.error}>{errors.email}</Text>}
     </View>
   );
 };
@@ -56,5 +58,8 @@ const styles = StyleSheet.create({
   icon: {
     justifyContent: 'center',
     marginRight: 9,
+  },
+  error: {
+    color: 'red',
   },
 });

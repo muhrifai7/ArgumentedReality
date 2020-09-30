@@ -10,6 +10,7 @@ export default async function fetchRequest(
 ): any {
   try {
     const token = await localStorage.getItem('@tokenxtrans');
+    console.log(process.env.REACT_APP_API_URL, 'process.env.REACT_APP_API_URL');
     if (token != undefined) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}${path}`, {
         method,

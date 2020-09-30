@@ -90,7 +90,7 @@ const OnBoarding = ({navigation}) => {
             <View
               style={{
                 position: 'absolute',
-                bottom: '10%',
+                bottom: '13%',
                 left: 40,
                 right: 40,
               }}>
@@ -127,7 +127,7 @@ const OnBoarding = ({navigation}) => {
                 borderBottomLeftRadius: 30,
                 borderBottomRightRadius: 0,
                 borderTopRightRadius: 0,
-                backgroundColor: COLORS.blue,
+                backgroundColor: COLORS.primary,
               }}
               onPress={() => {
                 navigation.replace('Login');
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   dot: {
     borderRadius: SIZES.radius,
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.primary,
     marginHorizontal: SIZES.radius / 2,
   },
 });
