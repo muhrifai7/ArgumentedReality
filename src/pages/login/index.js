@@ -11,7 +11,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import {Formik} from 'formik';
+import {Formik, getIn} from 'formik';
 import * as Yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -39,10 +39,11 @@ GoogleSignin.configure(
 import CustomTextInput from '../../components/CustomTextInput';
 import {Users} from '../../utils/Dumydata';
 import {SIZES, FONTS, COLORS} from '../../constants';
+import DebugFormik from '../../utils/DebugFormik';
 
 const Login = ({navigation}) => {
   const initialState = {
-    username: '',
+    email: '',
     password: '',
     confirm_password: '',
     check_textInputChange: false,
@@ -85,14 +86,14 @@ const Login = ({navigation}) => {
     if (val.trim().length >= 4) {
       setUserInfo({
         ...userInfo,
-        username: val,
+        email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
       setUserInfo({
         ...userInfo,
-        username: val,
+        email: val,
         check_textInputChange: false,
         isValidUser: false,
       });
@@ -136,23 +137,21 @@ const Login = ({navigation}) => {
     }
   };
 
-  const loginHandle = (userName, password) => {
+  const loginHandle = (email, password) => {
     const foundUser = Users.filter((item) => {
-      return userName == item.username && password == item.password;
+      return email == item.email && password == item.password;
     });
     console.log(foundUser, 'foundUser');
 
-    if (userInfo.username.length == 0 || userInfo.password.length == 0) {
-      Alert.alert(
-        'Wrong Input!',
-        'Username or password field cannot be empty.',
-        [{text: 'Okay'}],
-      );
+    if (userInfo.email.length == 0 || userInfo.password.length == 0) {
+      Alert.alert('Wrong Input!', 'email or password field cannot be empty.', [
+        {text: 'Okay'},
+      ]);
       return;
     }
 
     // if (foundUser.length == 0) {
-    //   Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+    //   Alert.alert('Invalid User!', 'email or password is incorrect.', [
     //     {text: 'Okay'},
     //   ]);
     //   return;
@@ -161,18 +160,17 @@ const Login = ({navigation}) => {
   };
 
   const SignInSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    password: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required'),
+    userInfo: Yup.object().shape({
+      password: Yup.string()
+        .min(6, 'Password To Short!')
+        .max(50, 'Password To Long!')
+        .required('Password is Required'),
+      email: Yup.string().email('Invalid email').required('Required'),
+    }),
   });
 
   const onSubmit = (values) => {
+    navigation.navigate('MainApp');
     console.log(values, 'onSubmitonSubmit');
   };
 
@@ -189,18 +187,21 @@ const Login = ({navigation}) => {
             onSubmit={onSubmit}
             validationSchema={SignInSchema}>
             {({
+              values,
+              touched,
+              errors,
+              dirty,
+              isSubmitting,
               handleChange,
               handleBlur,
               handleSubmit,
-              values,
-              errors,
-              touched,
+              handleReset,
             }) => (
               <View>
                 <View style={styles.action}>
                   <FontAwesome name="user-o" color={COLORS.text} size={20} />
                   <TextInput
-                    placeholder="Your Username"
+                    placeholder="Your Email"
                     placeholderTextColor="#666666"
                     style={[
                       styles.textInput,
@@ -209,22 +210,25 @@ const Login = ({navigation}) => {
                       },
                     ]}
                     autoCapitalize="none"
-                    onChangeText={handleChange('userInfo.username')}
+                    onChangeText={handleChange('userInfo.email')}
                     onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                   />
-                  {userInfo.check_textInputChange ? (
+                  {getIn(errors, 'userInfo.email') &&
+                  getIn(touched, 'userInfo.email') ? null : (
                     <Animatable.View animation="bounceIn">
                       <Feather name="check-circle" color="green" size={20} />
                     </Animatable.View>
-                  ) : null}
+                  )}
                 </View>
-                {userInfo.isValidUser ? null : (
-                  <Animatable.View animation="fadeInLeft" duration={500}>
-                    <Text style={styles.errorMsg}>
-                      Username must be 4 characters long.
-                    </Text>
-                  </Animatable.View>
-                )}
+                {getIn(errors, 'userInfo.email') &&
+                  getIn(touched, 'userInfo.email') && (
+                    <Animatable.View animation="fadeInLeft" duration={500}>
+                      <Text style={styles.errorMsg}>
+                        {errors.userInfo.email}
+                      </Text>
+                    </Animatable.View>
+                  )}
+
                 <View style={styles.action}>
                   <Feather name="lock" color={COLORS.text} size={20} />
                   <TextInput
@@ -249,15 +253,21 @@ const Login = ({navigation}) => {
                     )}
                   </TouchableOpacity>
                 </View>
-                {userInfo.isValidPassword ? null : (
-                  <Animatable.View animation="fadeInLeft" duration={500}>
-                    <Text style={styles.errorMsg}>
-                      Password must be 8 characters long.
-                    </Text>
-                  </Animatable.View>
-                )}
+                {getIn(errors, 'userInfo.password') &&
+                  getIn(touched, 'userInfo.password') && (
+                    <Animatable.View animation="fadeInLeft" duration={500}>
+                      <Text style={styles.errorMsg}>
+                        {errors.userInfo.password}
+                      </Text>
+                    </Animatable.View>
+                  )}
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Authentication', {
+                      screen: 'ForgotPassword',
+                    })
+                  }>
                   <Text style={{color: COLORS.primary, marginTop: 15}}>
                     Forgot password?
                   </Text>
@@ -313,6 +323,8 @@ const Login = ({navigation}) => {
               </View>
             )}
           </Formik>
+
+          {/* <DebugFormik /> */}
           {Platform.OS === 'ios' && <KeyboardSpacer />}
         </ScrollView>
       </Animatable.View>

@@ -130,7 +130,9 @@ const OnBoarding = ({navigation}) => {
                 backgroundColor: COLORS.primary,
               }}
               onPress={() => {
-                navigation.replace('Login');
+                navigation.replace('Authentication', {
+                  screen: 'Login',
+                });
               }}>
               <Text style={{...FONTS.h1, color: COLORS.white}}>
                 {completed ? "Let's Go" : 'Skip'}

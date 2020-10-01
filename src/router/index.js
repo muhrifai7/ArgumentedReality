@@ -13,7 +13,7 @@ import {
   OnBoarding,
   Register,
   Login,
-  AuthScreen,
+  ForgotPassword,
 } from '../pages';
 import {MyTabBar} from '../components';
 
@@ -37,6 +37,24 @@ const MainApp = () => {
   );
 };
 
+const Authentication = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+    </Stack.Navigator>
+  );
+};
+
 const Routes = () => {
   return (
     <Stack.Navigator initialRouteName="SplashScreen">
@@ -55,19 +73,10 @@ const Routes = () => {
         component={MainApp}
         options={{headerShown: false}}
       />
+
       <Stack.Screen
-        name="Register"
-        component={Register}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="AuthScreen"
-        component={AuthScreen}
+        name="Authentication"
+        component={Authentication}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

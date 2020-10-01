@@ -7,7 +7,7 @@ import Notifications from './notifications';
 import OnBoarding from './OnBoarding.js';
 import Register from './register';
 import Login from './login';
-import AuthScreen from './auth';
+import ForgotPassword from './ForgotPassword';
 
 export {
   HomeScreen,
@@ -19,5 +19,5 @@ export {
   OnBoarding,
   Register,
   Login,
-  AuthScreen,
+  ForgotPassword,
 };

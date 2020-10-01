@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
+
 import Gap from '../Gap';
 import Button from '../Button';
 import {getArticle} from '../../redux/ducks/action';
@@ -16,9 +17,20 @@ import {getArticle} from '../../redux/ducks/action';
 const Article = ({data}) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('okekekek');
+    fetchData();
     return () => {};
-  }, []);
+  }, [dispatch]);
+
+  async function fetchData() {
+    // You can await here
+    try {
+      await dispatch(getArticle());
+
+      const NumOfDoneTodos = await useSelector(state);
+      console.log(NumOfDoneTodos, 'NumOfDoneTodos');
+    } catch (error) {}
+    // ...
+  }
 
   const Item = ({url, title, content}) => (
     <View style={styles.container}>
@@ -40,7 +52,7 @@ const Article = ({data}) => {
           </View>
         </View>
         <View style={styles.button}>
-          <Button title="Join the discussion" type="primary" />
+          {/* <Button title="Join the discussion" type="primary" /> */}
         </View>
 
         <View style={styles.share}>

@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios';
+import Config from 'react-native-config';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH';
 
@@ -9,19 +10,21 @@ export default async function fetchRequest(
   data: any,
 ): any {
   try {
-    const token = await localStorage.getItem('@tokenxtrans');
-    console.log(process.env.REACT_APP_API_URL, 'process.env.REACT_APP_API_URL');
+    const token = true;
     if (token != undefined) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${path}`, {
-        method,
-        headers: {
-          Accept: 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: token,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/${path}`,
+        {
+          method,
+          headers: {
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
       const result = await response.json();
       if (result.error != null) {
         throw result.error;
@@ -29,15 +32,19 @@ export default async function fetchRequest(
         return result;
       }
     } else {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}${path}`, {
-        method,
-        headers: {
-          Accept: 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
+      console.log('tidak ada token44');
+      const response = await fetch(
+        `${'https://jsonplaceholder.typicode.com/'}${path}`,
+        {
+          method,
+          headers: {
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
       const result = await response.json();
       if (result.error != null) {
         throw result.error;
@@ -52,7 +59,7 @@ export default async function fetchRequest(
 
 export async function fetchFormData(path, imageFile) {
   // console.log(imageFile);
-  const url = `${process.env.REACT_APP_API_URL}${path}`;
+  const url = `${Config.REACT_APP_API_URL}${path}`;
   try {
     const formData = new FormData();
     if (imageFile instanceof Array) {
