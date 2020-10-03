@@ -7,5 +7,6 @@ const rootReducer = combineReducers({
   authStore: authStoreReducer,
   articleStore: articleStoreReducer,
 });
+console.log(JSON.stringify(rootReducer), 'rootReducer');
 
 export default rootReducer;

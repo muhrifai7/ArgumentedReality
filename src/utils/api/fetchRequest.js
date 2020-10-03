@@ -10,10 +10,10 @@ export default async function fetchRequest(
   data: any,
 ): any {
   try {
-    const token = true;
+    const token = undefined;
     if (token != undefined) {
       const response = await fetch(
-        `https://jsonplaceholder.typicode.com/${path}`,
+        `https://jsonplaceholder.typicode.com/todos${''}`,
         {
           method,
           headers: {
@@ -34,7 +34,7 @@ export default async function fetchRequest(
     } else {
       console.log('tidak ada token44');
       const response = await fetch(
-        `${'https://jsonplaceholder.typicode.com/'}${path}`,
+        `https://jsonplaceholder.typicode.com/todos`,
         {
           method,
           headers: {
@@ -42,7 +42,7 @@ export default async function fetchRequest(
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: data,
         },
       );
       const result = await response.json();

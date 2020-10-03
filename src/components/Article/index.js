@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useEffect, useState, useMemo} from 'react';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -15,45 +15,37 @@ import Button from '../Button';
 import {getArticle} from '../../redux/ducks/action';
 
 const Article = ({data}) => {
+  const [article, setArticle] = useState([]);
   const dispatch = useDispatch();
+  const articleData = useSelector(
+    (state) => state.articleStore.data,
+    shallowEqual,
+  );
+  console.log(articleData, 'articleData');
   useEffect(() => {
+    dispatch(getArticle());
     fetchData();
     return () => {};
-  }, [dispatch]);
+  }, []);
 
-  async function fetchData() {
-    // You can await here
+  const fetchData = async () => {
     try {
-      await dispatch(getArticle());
+      setArticle(articleData);
+    } catch (error) {
+      console.log(error, 'erorr');
+    }
+  };
 
-      const NumOfDoneTodos = await useSelector(state);
-      console.log(NumOfDoneTodos, 'NumOfDoneTodos');
-    } catch (error) {}
-    // ...
-  }
-
-  const Item = ({url, title, content}) => (
+  const Item = ({title, id}) => (
     <View style={styles.container}>
-      <Image
-        style={styles.imageBrand}
-        source={{
-          uri: url,
-        }}
-      />
+      {/* <Image
+          style={styles.imageBrand}
+          source={{
+            uri: url,
+          }}
+        /> */}
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
-        <View style={styles.subContent}>
-          <View>
-            <Icon name="rowing" />
-          </View>
-          <Gap width={5} />
-          <View style={styles.description}>
-            <Text>{content}</Text>
-          </View>
-        </View>
-        <View style={styles.button}>
-          {/* <Button title="Join the discussion" type="primary" /> */}
-        </View>
 
         <View style={styles.share}>
           <Text>98</Text>
@@ -69,15 +61,13 @@ const Article = ({data}) => {
     </View>
   );
 
-  const renderItem = ({item}) => (
-    <Item url={item.image_url} title={item.title} content={item.content} />
-  );
+  const renderItem = ({item}) => <Item title={item.title} id={item.id} />;
 
   return (
     <View>
       <SafeAreaView>
         <FlatList
-          data={data}
+          data={article}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />

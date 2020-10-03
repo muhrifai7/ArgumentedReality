@@ -171,7 +171,6 @@ const Login = ({navigation}) => {
 
   const onSubmit = (values) => {
     navigation.navigate('MainApp');
-    console.log(values, 'onSubmitonSubmit');
   };
 
   return (
@@ -292,8 +291,8 @@ const Login = ({navigation}) => {
                     </LinearGradient>
                   </TouchableOpacity>
 
-                  {/* <TouchableOpacity
-                    onPress={() => navigation.navigate('Register')}
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('MainApp')}
                     style={[
                       styles.signIn,
                       {
@@ -311,7 +310,7 @@ const Login = ({navigation}) => {
                       ]}>
                       Sign Up
                     </Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
                 <GoogleSigninButton
                   style={{height: 48}}
