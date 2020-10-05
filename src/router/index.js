@@ -2,6 +2,8 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
   HomeScreen,
@@ -19,21 +21,28 @@ import {MyTabBar} from '../components';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const MainApp = () => {
   return (
-    <Tab.Navigator
-      tabBar={(props) => <MyTabBar {...props} />}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-      }}>
-      <Tab.Screen name="Discover" component={HomeScreen} />
-      <Tab.Screen name="Courses" component={Courses} />
-      <Tab.Screen name="Messages" component={Messages} />
-      {/* <Tab.Screen name="Notifications" component={Notifications} /> */}
-      <Tab.Screen name="Profiles" component={Profiles} />
-    </Tab.Navigator>
+    <Drawer.Navigator initialRouteName="Discover">
+      <Drawer.Screen name="Discover" component={HomeScreen} />
+      <Drawer.Screen name="Course" component={Courses} />
+      <Drawer.Screen name="Message" component={Messages} />
+      <Drawer.Screen name="Profile" component={Profiles} />
+    </Drawer.Navigator>
+    // <Tab.Navigator
+    //   tabBar={(props) => <MyTabBar {...props} />}
+    //   tabBarOptions={{
+    //     activeTintColor: 'tomato',
+    //     inactiveTintColor: 'gray',
+    //   }}>
+    //   <Tab.Screen name="Discover" component={HomeScreen} />
+    //   <Tab.Screen name="Courses" component={Courses} />
+    //   <Tab.Screen name="Messages" component={Messages} />
+    //   {/* <Tab.Screen name="Notifications" component={Notifications} /> */}
+    //   <Tab.Screen name="Profiles" component={Profiles} />
+    // </Tab.Navigator>
   );
 };
 

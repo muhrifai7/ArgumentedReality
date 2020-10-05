@@ -137,28 +137,6 @@ const Login = ({navigation}) => {
     }
   };
 
-  const loginHandle = (email, password) => {
-    const foundUser = Users.filter((item) => {
-      return email == item.email && password == item.password;
-    });
-    console.log(foundUser, 'foundUser');
-
-    if (userInfo.email.length == 0 || userInfo.password.length == 0) {
-      Alert.alert('Wrong Input!', 'email or password field cannot be empty.', [
-        {text: 'Okay'},
-      ]);
-      return;
-    }
-
-    // if (foundUser.length == 0) {
-    //   Alert.alert('Invalid User!', 'email or password is incorrect.', [
-    //     {text: 'Okay'},
-    //   ]);
-    //   return;
-    // }
-    navigation.navigate('MainApp');
-  };
-
   const SignInSchema = Yup.object().shape({
     userInfo: Yup.object().shape({
       password: Yup.string()
@@ -177,7 +155,7 @@ const Login = ({navigation}) => {
     <View style={styles.container}>
       {/* <StatusBar backgroundColor="#009387" barStyle="light-content" /> */}
       <View style={styles.header}>
-        <Text style={styles.text_header}>Wellcome!</Text>
+        <Text style={styles.text_header}>Coffeshop.co!</Text>
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -267,7 +245,7 @@ const Login = ({navigation}) => {
                       screen: 'ForgotPassword',
                     })
                   }>
-                  <Text style={{color: COLORS.primary, marginTop: 15}}>
+                  <Text style={{color: COLORS.sekunder, marginTop: 15}}>
                     Forgot password?
                   </Text>
                 </TouchableOpacity>
@@ -286,12 +264,12 @@ const Login = ({navigation}) => {
                             color: '#fff',
                           },
                         ]}>
-                        Sign In
+                        Login
                       </Text>
                     </LinearGradient>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => navigation.navigate('MainApp')}
                     style={[
                       styles.signIn,
@@ -310,7 +288,7 @@ const Login = ({navigation}) => {
                       ]}>
                       Sign Up
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <GoogleSigninButton
                   style={{height: 48}}
