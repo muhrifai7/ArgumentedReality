@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import DrawerContent from '../drawerContent';
 import {
   HomeScreen,
   Profiles,
@@ -25,7 +26,9 @@ const Drawer = createDrawerNavigator();
 
 const MainApp = () => {
   return (
-    <Drawer.Navigator initialRouteName="Discover">
+    <Drawer.Navigator
+      initialRouteName="Discover"
+      drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="Discover" component={HomeScreen} />
       <Drawer.Screen name="Course" component={Courses} />
       <Drawer.Screen name="Message" component={Messages} />

@@ -148,7 +148,7 @@ const Login = ({navigation}) => {
   });
 
   const onSubmit = (values) => {
-    navigation.navigate('MainApp');
+    navigation.navigate('HomeScreen');
   };
 
   return (
