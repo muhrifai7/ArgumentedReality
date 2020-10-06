@@ -17,6 +17,15 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS} from '../constants';
 
 const DrawerContent = (props) => {
+  const [dropValue, setDropValue] = useState(false);
+  const [dropKasir, setDropKasir] = useState(false);
+  const [dropLaporan, setDroplaporan] = useState(false);
+  const [valMaster, setValMater] = useState(false);
+  const dropMenu = () => {
+    setDropValue(!dropValue);
+    setValMater(!valMaster);
+  };
+
   const [state, setState] = useState();
   return (
     <View style={{flex: 1, backgroundColor: COLORS.primary}}>
@@ -37,15 +46,18 @@ const DrawerContent = (props) => {
             </View>
           </View>
           <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="account-box-outline" color={color} size={size} />
-              )}
-              label="User Management"
-              onPress={() => {
-                props.navigation.navigate('Discover');
-              }}
-            />
+            <View>
+              <DrawerItem
+                icon={({color, size}) => (
+                  <Icon name="account-box-outline" color={color} size={size} />
+                )}
+                label="User Management"
+                onPress={() => {
+                  props.navigation.navigate('Discover');
+                }}
+              />
+            </View>
+
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="alpha-t" color={color} size={size} />
@@ -59,7 +71,7 @@ const DrawerContent = (props) => {
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
-              label="Home"
+              label={`Dashboard`}
               onPress={() => {
                 props.navigation.navigate('Discover');
               }}
@@ -68,11 +80,95 @@ const DrawerContent = (props) => {
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
-              label="Home"
+              label={`Master                   ${valMaster ? '-' : '+'}`}
               onPress={() => {
-                props.navigation.navigate('Discover');
+                dropMenu();
               }}
             />
+            {dropValue && (
+              <View style={styles.master}>
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Bank"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Kategori"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+              </View>
+            )}
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="home-outline" color={color} size={size} />
+              )}
+              label="Kasir"
+              onPress={() => {
+                setDropKasir(!dropKasir);
+              }}
+            />
+            {dropKasir && (
+              <View style={styles.master}>
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Bank"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Kategori"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+              </View>
+            )}
+            <DrawerItem
+              icon={({color, size}) => (
+                <Icon name="home-outline" color={color} size={size} />
+              )}
+              label="Laporan"
+              onPress={() => {
+                setDroplaporan(!dropLaporan);
+              }}
+            />
+            {dropLaporan && (
+              <View style={styles.master}>
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Bank"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Kategori"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+              </View>
+            )}
             <DrawerItem
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
@@ -172,5 +268,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  master: {
+    marginLeft: 50,
+    // backgroundColor: 'red',
   },
 });

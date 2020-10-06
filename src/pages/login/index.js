@@ -269,7 +269,7 @@ const Login = ({navigation}) => {
                     </LinearGradient>
                   </TouchableOpacity>
 
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     onPress={() => navigation.navigate('MainApp')}
                     style={[
                       styles.signIn,
@@ -288,7 +288,7 @@ const Login = ({navigation}) => {
                       ]}>
                       Sign Up
                     </Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
                 <GoogleSigninButton
                   style={{height: 48}}

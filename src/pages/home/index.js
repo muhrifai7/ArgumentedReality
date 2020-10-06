@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, StatusBar} from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = ({navigation}) => {
   const {colors} = useTheme();
@@ -9,12 +10,12 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Icon
+        name="ios-menu"
+        size={35}
+        backgroundColor="#009387"
+        onPress={() => navigation.openDrawer()}></Icon>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <Text style={{color: colors.text}}>Home Screen</Text>
-      <Button
-        title="Go to details screen"
-        // onPress={() => navigation.navigate('Details')}
-      />
     </View>
   );
 };
@@ -22,11 +23,11 @@ const HomeScreen = ({navigation}) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // container: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
 });
 
 // import React,{useEffect,useState} from 'react';
