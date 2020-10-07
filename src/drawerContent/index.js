@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {
   useTheme,
   Avatar,
@@ -13,6 +13,7 @@ import {
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as Animatable from 'react-native-animatable';
 
 import {COLORS} from '../constants';
 
@@ -20,10 +21,18 @@ const DrawerContent = (props) => {
   const [dropValue, setDropValue] = useState(false);
   const [dropKasir, setDropKasir] = useState(false);
   const [dropLaporan, setDroplaporan] = useState(false);
-  const [valMaster, setValMater] = useState(false);
   const dropMenu = () => {
     setDropValue(!dropValue);
-    setValMater(!valMaster);
+  };
+  const dropMenuKasir = () => {
+    setDropKasir(!dropKasir);
+  };
+  const dropMenuLaporan = () => {
+    setDroplaporan(!dropLaporan);
+  };
+
+  const signOut = () => {
+    props.navigation.navigate('Login');
   };
 
   const [state, setState] = useState();
@@ -33,16 +42,23 @@ const DrawerContent = (props) => {
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop: 15}}>
-              <Avatar.Image
-                source={{
-                  uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
-                }}
-                size={50}
-              />
-              <View style={{marginLeft: 15, flexDirection: 'column'}}>
-                <Title style={styles.title}>Super Adimin</Title>
-                <Caption style={styles.caption}>@admin</Caption>
-              </View>
+              <TouchableOpacity
+                style={{display: 'flex', flexDirection: 'row'}}
+                onPress={() => {
+                  props.navigation.navigate('Profiles');
+                }}>
+                <Avatar.Image
+                  source={{
+                    uri:
+                      'https://api.adorable.io/avatars/50/abott@adorable.png',
+                  }}
+                  size={50}
+                />
+                <View style={{marginLeft: 15, flexDirection: 'column'}}>
+                  <Title style={styles.title}>Super Adimin</Title>
+                  <Caption style={styles.caption}>@admin</Caption>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
           <Drawer.Section style={styles.drawerSection}>
@@ -53,7 +69,7 @@ const DrawerContent = (props) => {
                 )}
                 label="User Management"
                 onPress={() => {
-                  props.navigation.navigate('Discover');
+                  props.navigation.navigate('Profiles');
                 }}
               />
             </View>
@@ -78,15 +94,16 @@ const DrawerContent = (props) => {
             />
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon name="book-multiple-outline" color={color} size={size} />
               )}
-              label={`Master                   ${valMaster ? '-' : '+'}`}
+              label="Master"
               onPress={() => {
                 dropMenu();
               }}
+              labelStyle={styles.master1}
             />
             {dropValue && (
-              <View style={styles.master}>
+              <Animatable.View animation="fadeInDown" style={styles.master}>
                 <DrawerItem
                   icon={({color, size}) => (
                     <Icon name="home-outline" color={color} size={size} />
@@ -105,19 +122,20 @@ const DrawerContent = (props) => {
                     props.navigation.navigate('Discover');
                   }}
                 />
-              </View>
+              </Animatable.View>
             )}
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon name="database-edit" color={color} size={size} />
               )}
               label="Kasir"
               onPress={() => {
-                setDropKasir(!dropKasir);
+                dropMenuKasir();
               }}
+              labelStyle={styles.master1}
             />
             {dropKasir && (
-              <View style={styles.master}>
+              <Animatable.View animation="fadeInDown" style={styles.master}>
                 <DrawerItem
                   icon={({color, size}) => (
                     <Icon name="home-outline" color={color} size={size} />
@@ -136,19 +154,20 @@ const DrawerContent = (props) => {
                     props.navigation.navigate('Discover');
                   }}
                 />
-              </View>
+              </Animatable.View>
             )}
             <DrawerItem
               icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon name="calendar-month-outline" color={color} size={size} />
               )}
               label="Laporan"
               onPress={() => {
-                setDroplaporan(!dropLaporan);
+                dropMenuLaporan();
               }}
+              labelStyle={styles.master1}
             />
             {dropLaporan && (
-              <View style={styles.master}>
+              <Animatable.View animation="fadeInDown" style={styles.master}>
                 <DrawerItem
                   icon={({color, size}) => (
                     <Icon name="home-outline" color={color} size={size} />
@@ -167,7 +186,7 @@ const DrawerContent = (props) => {
                     props.navigation.navigate('Discover');
                   }}
                 />
-              </View>
+              </Animatable.View>
             )}
             <DrawerItem
               icon={({color, size}) => (
@@ -215,7 +234,7 @@ const DrawerContent = (props) => {
           )}
           label="Sign Out"
           onPress={() => {
-            // signOut();
+            signOut();
           }}
         />
       </Drawer.Section>
@@ -271,6 +290,10 @@ const styles = StyleSheet.create({
   },
   master: {
     marginLeft: 50,
+    // backgroundColor: 'red',
+  },
+  master1: {
+    fontWeight: 'bold',
     // backgroundColor: 'red',
   },
 });

@@ -29,23 +29,11 @@ const MainApp = () => {
     <Drawer.Navigator
       initialRouteName="Discover"
       drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Discover" component={HomeScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Course" component={Courses} />
       <Drawer.Screen name="Message" component={Messages} />
       <Drawer.Screen name="Profile" component={Profiles} />
     </Drawer.Navigator>
-    // <Tab.Navigator
-    //   tabBar={(props) => <MyTabBar {...props} />}
-    //   tabBarOptions={{
-    //     activeTintColor: 'tomato',
-    //     inactiveTintColor: 'gray',
-    //   }}>
-    //   <Tab.Screen name="Discover" component={HomeScreen} />
-    //   <Tab.Screen name="Courses" component={Courses} />
-    //   <Tab.Screen name="Messages" component={Messages} />
-    //   {/* <Tab.Screen name="Notifications" component={Notifications} /> */}
-    //   <Tab.Screen name="Profiles" component={Profiles} />
-    // </Tab.Navigator>
   );
 };
 
@@ -73,6 +61,11 @@ const Routes = () => {
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Profiles"
+        component={Profiles}
         options={{headerShown: false}}
       />
       <Stack.Screen

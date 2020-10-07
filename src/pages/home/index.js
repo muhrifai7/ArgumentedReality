@@ -1,7 +1,18 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, StatusBar} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Header} from 'react-native-elements';
+import {COLORS} from '../../constants';
+
+import Table from '../../components/Table';
 
 const HomeScreen = ({navigation}) => {
   const {colors} = useTheme();
@@ -10,12 +21,29 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Icon
-        name="ios-menu"
-        size={35}
-        backgroundColor="#009387"
-        onPress={() => navigation.openDrawer()}></Icon>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <StatusBar backgroundColor={COLORS.primary} />
+      <Header
+        backgroundColor={COLORS.primary}
+        leftComponent={{
+          icon: 'menu',
+          color: '#fff',
+          onPress: () => navigation.openDrawer(),
+        }}
+        centerComponent={{text: 'User Management', style: {color: '#fff'}}}
+        rightComponent={{icon: 'home', color: '#fff'}}
+      />
+      <View style={styles.tableContainer}>
+        <View style={styles.headerTable}>
+          <TouchableOpacity>
+            <Icon
+              name="add-circle"
+              size={35}
+              color="red"
+              onPress={() => {}}></Icon>
+          </TouchableOpacity>
+        </View>
+        <Table />
+      </View>
     </View>
   );
 };
@@ -23,11 +51,18 @@ const HomeScreen = ({navigation}) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
+  container: {
+    flex: 1,
+  },
+  tableContainer: {
+    flex: 1,
+  },
+  headerTable: {
+    display: 'flex',
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    marginRight: 5,
+  },
 });
 
 // import React,{useEffect,useState} from 'react';
@@ -79,7 +114,3 @@ const styles = StyleSheet.create({
 // }
 
 // export default Home;
-
-// const styes = StyleSheet.create({
-
-// })
