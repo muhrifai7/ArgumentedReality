@@ -45,7 +45,9 @@ const DrawerContent = (props) => {
               <TouchableOpacity
                 style={{display: 'flex', flexDirection: 'row'}}
                 onPress={() => {
-                  props.navigation.navigate('Profiles');
+                  props.navigation.navigate('DrawerNavigator', {
+                    screen: 'Profiles',
+                  });
                 }}>
                 <Avatar.Image
                   source={{
@@ -69,7 +71,9 @@ const DrawerContent = (props) => {
                 )}
                 label="User Management"
                 onPress={() => {
-                  props.navigation.navigate('Profiles');
+                  props.navigation.navigate('RootHome', {
+                    screen: 'HomeScreen',
+                  });
                 }}
               />
             </View>
@@ -80,7 +84,9 @@ const DrawerContent = (props) => {
               )}
               label="Identitas Toko"
               onPress={() => {
-                props.navigation.navigate('Discover');
+                props.navigation.navigate('RootToko', {
+                  screen: 'Toko',
+                });
               }}
             />
             <DrawerItem
@@ -89,7 +95,7 @@ const DrawerContent = (props) => {
               )}
               label={`Dashboard`}
               onPress={() => {
-                props.navigation.navigate('Discover');
+                props.navigation.navigate('Dashboard');
               }}
             />
             <DrawerItem

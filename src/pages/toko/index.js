@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, StatusBar, Button} from 'react-native';
+import {StyleSheet, View, Text, StatusBar} from 'react-native';
 import {Header} from 'react-native-elements';
 import {COLORS} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CustomLeft = ({navigation}) => {
-  console.log(navigation, 'teesss');
+const CustomLeft = (navigation) => {
+  console.log(navigation, 'oekekekeke');
   return (
     <View>
       <Icon
@@ -27,24 +27,21 @@ const CustomRight = () => {
   );
 };
 
-const Setting = ({navigation}) => {
+const IdentitasToko = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <StatusBar backgroundColor={COLORS.primary} />
       <Header
         backgroundColor={COLORS.primary}
-        leftComponent={<CustomLeft navigation={navigation} />}
-        centerComponent={{text: 'User Management', style: {color: '#fff'}}}
+        leftComponent={<CustomLeft navigation={navigation.navigate} />}
+        centerComponent={{text: 'Identitas Toko', style: {color: '#fff'}}}
         rightComponent={<CustomRight />}
       />
-      <Text>Profiles Screen</Text>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Button onPress={() => navigation.openDrawer()} title="Go back home" />
-      </View>
+      <Text>Toko Screen</Text>
     </View>
   );
 };
 
-export default Setting;
+export default IdentitasToko;
 
 const styes = StyleSheet.create({});

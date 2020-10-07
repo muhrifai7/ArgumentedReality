@@ -270,7 +270,11 @@ const Login = ({navigation}) => {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('MainApp')}
+                    onPress={() =>
+                      navigation.navigate('DrawerNavigator', {
+                        screen: 'RootHome',
+                      })
+                    }
                     style={[
                       styles.signIn,
                       {

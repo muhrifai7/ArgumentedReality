@@ -39,7 +39,11 @@ const HomeScreen = ({navigation}) => {
               name="add-circle"
               size={35}
               color="red"
-              onPress={() => {}}></Icon>
+              onPress={() => {
+                navigation.navigate('RootHome', {
+                  screen: 'HomeForm',
+                });
+              }}></Icon>
           </TouchableOpacity>
         </View>
         <Table />
