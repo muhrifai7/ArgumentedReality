@@ -4,8 +4,7 @@ import {Header} from 'react-native-elements';
 import {COLORS} from '../../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CustomLeft = (navigation) => {
-  console.log(navigation, 'oekekekeke');
+const CustomLeft = ({navigation}) => {
   return (
     <View>
       <Icon

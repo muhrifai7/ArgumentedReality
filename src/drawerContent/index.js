@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, SafeAreaView} from 'react-native';
 import {
   useTheme,
   Avatar,
@@ -10,6 +10,7 @@ import {
   Text,
   TouchableRipple,
   Switch,
+  List,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -35,9 +36,12 @@ const DrawerContent = (props) => {
     props.navigation.navigate('Login');
   };
 
-  const [state, setState] = useState();
+  const [expanded, setExpanded] = useState(true);
+
+  const handlePress = () => setExpanded(!expanded);
+
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.primary}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primary}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
@@ -64,32 +68,90 @@ const DrawerContent = (props) => {
             </View>
           </View>
           <Drawer.Section style={styles.drawerSection}>
-            <View>
-              <DrawerItem
-                icon={({color, size}) => (
-                  <Icon name="account-box-outline" color={color} size={size} />
-                )}
-                label="User Management"
+            <List.Section>
+              <TouchableOpacity
                 onPress={() => {
-                  props.navigation.navigate('RootHome', {
-                    screen: 'HomeScreen',
+                  props.navigation.navigate('RootToko', {
+                    screen: 'Toko',
                   });
-                }}
-              />
-            </View>
+                }}>
+                <List.Item
+                  title="User Management"
+                  left={() => (
+                    <Icon name="account-box-outline" color="black" size={24} />
+                  )}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('RootToko', {
+                    screen: 'Toko',
+                  });
+                }}>
+                <List.Item
+                  title="Identitas Toko"
+                  left={() => <Icon name="alpha-t" color="black" size={24} />}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('RootToko', {
+                    screen: 'Toko',
+                  });
+                }}>
+                <List.Item
+                  title="Dashboard"
+                  left={() => (
+                    <Icon name="home-outline" color="black" size={24} />
+                  )}
+                />
+              </TouchableOpacity>
+              <List.Accordion
+                title="Master"
+                left={(props) => (
+                  <Icon name="book-multiple-outline" color="black" size={24} />
+                )}>
+                <TouchableOpacity>
+                  <List.Item title="First item" />
+                </TouchableOpacity>
+                <List.Item title="Second item" />
+              </List.Accordion>
+              <List.Accordion
+                title="Kasir"
+                left={(props) => (
+                  <Icon name="account-box-outline" color="black" size={24} />
+                )}>
+                <TouchableOpacity>
+                  <List.Item title="First item" />
+                </TouchableOpacity>
+                <List.Item title="Second item" />
+              </List.Accordion>
+              <List.Accordion
+                title="Laporan"
+                left={(props) => (
+                  <Icon name="account-box-outline" color="black" size={24} />
+                )}>
+                <TouchableOpacity>
+                  <List.Item title="First item" />
+                </TouchableOpacity>
+                <List.Item title="Second item" />
+              </List.Accordion>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('RootToko', {
+                    screen: 'Toko',
+                  });
+                }}>
+                <List.Item
+                  title="Dapur"
+                  left={() => (
+                    <Icon name="account-box-outline" color="black" size={24} />
+                  )}
+                />
+              </TouchableOpacity>
+            </List.Section>
 
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="alpha-t" color={color} size={size} />
-              )}
-              label="Identitas Toko"
-              onPress={() => {
-                props.navigation.navigate('RootToko', {
-                  screen: 'Toko',
-                });
-              }}
-            />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
@@ -97,8 +159,8 @@ const DrawerContent = (props) => {
               onPress={() => {
                 props.navigation.navigate('Dashboard');
               }}
-            />
-            <DrawerItem
+            /> */}
+            {/* <DrawerItem
               icon={({color, size}) => (
                 <Icon name="book-multiple-outline" color={color} size={size} />
               )}
@@ -112,7 +174,11 @@ const DrawerContent = (props) => {
               <Animatable.View animation="fadeInDown" style={styles.master}>
                 <DrawerItem
                   icon={({color, size}) => (
-                    <Icon name="home-outline" color={color} size={size} />
+                    <Icon
+                      name="safe-square-outline"
+                      color={color}
+                      size={size}
+                    />
                   )}
                   label="Bank"
                   onPress={() => {
@@ -121,9 +187,49 @@ const DrawerContent = (props) => {
                 />
                 <DrawerItem
                   icon={({color, size}) => (
-                    <Icon name="home-outline" color={color} size={size} />
+                    <Icon name="reorder-horizontal" color={color} size={size} />
                   )}
                   label="Kategori"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="table-furniture" color={color} size={size} />
+                  )}
+                  label="Satuan"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon
+                      name="room-service-outline"
+                      color={color}
+                      size={size}
+                    />
+                  )}
+                  label="Barang"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="receipt" color={color} size={size} />
+                  )}
+                  label="Ketersediaan Menu"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="account-multiple" color={color} size={size} />
+                  )}
+                  label="Member"
                   onPress={() => {
                     props.navigation.navigate('Discover');
                   }}
@@ -144,18 +250,18 @@ const DrawerContent = (props) => {
               <Animatable.View animation="fadeInDown" style={styles.master}>
                 <DrawerItem
                   icon={({color, size}) => (
-                    <Icon name="home-outline" color={color} size={size} />
+                    <Icon name="attach-money" color={color} size={size} />
                   )}
-                  label="Bank"
+                  label="Beli Langsung"
                   onPress={() => {
                     props.navigation.navigate('Discover');
                   }}
                 />
                 <DrawerItem
                   icon={({color, size}) => (
-                    <Icon name="home-outline" color={color} size={size} />
+                    <Icon name="card-membership" color={color} size={size} />
                   )}
-                  label="Kategori"
+                  label="Reseller"
                   onPress={() => {
                     props.navigation.navigate('Discover');
                   }}
@@ -178,7 +284,7 @@ const DrawerContent = (props) => {
                   icon={({color, size}) => (
                     <Icon name="home-outline" color={color} size={size} />
                   )}
-                  label="Bank"
+                  label="Produk Terlaris"
                   onPress={() => {
                     props.navigation.navigate('Discover');
                   }}
@@ -187,7 +293,16 @@ const DrawerContent = (props) => {
                   icon={({color, size}) => (
                     <Icon name="home-outline" color={color} size={size} />
                   )}
-                  label="Kategori"
+                  label="Transaksi Langsung"
+                  onPress={() => {
+                    props.navigation.navigate('Discover');
+                  }}
+                />
+                <DrawerItem
+                  icon={({color, size}) => (
+                    <Icon name="home-outline" color={color} size={size} />
+                  )}
+                  label="Transaksi Member"
                   onPress={() => {
                     props.navigation.navigate('Discover');
                   }}
@@ -198,43 +313,27 @@ const DrawerContent = (props) => {
               icon={({color, size}) => (
                 <Icon name="home-outline" color={color} size={size} />
               )}
-              label="Home"
+              label="Dapur"
               onPress={() => {
                 props.navigation.navigate('Discover');
               }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate('Discover');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate('Discover');
-              }}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate('Discover');
-              }}
-            />
+            /> */}
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
+        <List.Section>
+          <TouchableOpacity
+            onPress={() => {
+              signOut();
+            }}>
+            <List.Item
+              title="Sing Out"
+              left={() => <Icon name="exit-to-app" color="black" size={24} />}
+            />
+          </TouchableOpacity>
+        </List.Section>
+        {/* <DrawerItem
           icon={({color, size}) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
@@ -242,9 +341,9 @@ const DrawerContent = (props) => {
           onPress={() => {
             signOut();
           }}
-        />
+        /> */}
       </Drawer.Section>
-    </View>
+    </SafeAreaView>
   );
 };
 
